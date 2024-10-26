@@ -1,0 +1,12 @@
+.auth-layout{
+    display: grid;
+    grid-template-columns: 1.3fr 1fr;
+    height: 100dvh;
+    justify-content: center;
+}
+
+.auth-img{
+    height: 100dvh;
+    object-fit: cover;
+    width: 100%;
+}

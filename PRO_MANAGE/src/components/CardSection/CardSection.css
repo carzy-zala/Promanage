@@ -1,0 +1,79 @@
+.card-section-div {
+  background: #eef2f5;
+  width: 28rem;
+  height: 42rem;
+  flex-shrink: 0;
+  border-radius: 1rem;
+  display: grid;
+  grid-template-rows: 0.05fr auto;
+  gap: 1rem;
+}
+
+.card-section-div-header {
+  padding: 2rem 2rem 0 2rem;
+  display: grid;
+  grid-template-columns: auto auto ;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.card-section-header-btns{
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+  justify-content: center;
+}
+
+.card-main-collapse-all-btn{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+}
+
+.card-section-leftname {
+  font-size: 1.6rem;
+  font-weight: 500;
+  line-height: 2.4rem;
+}
+
+.card-section-tasks {
+  display: grid;
+  grid-template-rows: 1fr 1fr 1fr;
+  gap: 2rem;
+  padding: 0 1.5rem;
+  overflow: auto;
+  overflow-x: hidden;
+  padding-bottom: 2rem;
+}
+
+::-webkit-scrollbar:vertical {
+  width: 1rem; 
+}
+
+/* Track */
+::-webkit-scrollbar-track:vertical {
+  background: #d6eaf4;
+  border-bottom-right-radius: 1rem;
+  
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb:vertical {
+  background: #8daab9cc;
+  border: 0.2rem solid #d6eaf4;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #8daab9cc;
+}
+
+.no-text{
+  color: #a3a3a3;
+  font-size: 1.4rem;
+  height: 300%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

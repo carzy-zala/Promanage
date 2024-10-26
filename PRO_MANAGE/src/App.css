@@ -1,0 +1,29 @@
+.app-css-ds {
+  display: flex;
+  overflow-x: auto;
+  flex-wrap: nowrap;
+  gap:  2rem;
+  flex-shrink: none;
+  padding: 2rem ;
+}
+
+::-webkit-scrollbar {
+    height: 1rem;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #fff;
+  border-bottom-right-radius: 1rem;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #8daab9cc;
+  border-radius: 1rem;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: red;
+}

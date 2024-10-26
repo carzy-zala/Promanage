@@ -1,0 +1,60 @@
+.board-main-div {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  width: 100%;
+  padding-top: 2rem;
+  overflow: hidden;
+}
+
+.cardsection-parent-div {
+  display: flex;
+  /* grid-template-columns: 1fr 1fr 1fr 1fr; */
+  gap: 3rem;
+  overflow-x:auto ;
+  height: 44.3rem;
+}
+
+.board-main-heading-details {
+  display: grid;
+  grid-template-rows: 1.3fr 1fr;
+}
+
+.board-welcome-greeting-message {
+  font-size: 2.2rem;
+  font-weight: 600;
+  line-height: 3.3rem;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.board-today-date {
+  font-size: 1.4rem;
+  font-weight: 500;
+  line-height: 2rem;
+  text-align: left;
+  justify-self: end;
+  align-self: flex-end;
+  padding-right: 3rem;
+  color: #707070;
+}
+
+.board-heading-and-dropdown {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.board-heading {
+  font-size: 3rem;
+  font-weight: 500;
+  line-height: 4.3rem;
+  text-align: left;
+}
+
+.board-select {
+  align-self: flex-end;
+  padding-right: 3rem;
+}

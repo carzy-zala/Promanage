@@ -1,0 +1,70 @@
+.settings-main-div {
+  padding: 2rem 4rem;
+}
+
+h1 {
+  font-family: Open Sans;
+  font-size: 2.2rem;
+  font-weight: 600;
+  line-height: 3;
+  text-align: left;
+}
+
+.settings-input-fields {
+  display: grid;
+  grid-template-rows: 1fr 1fr 1fr 1fr;
+  gap: 2rem;
+}
+
+.settings-input-container {
+  padding: 1rem;
+  border: 0.15rem solid #d0d0d0;
+  border-radius: 1.1rem;
+  width: 49.5rem;
+  height: 5.5rem;
+  border-radius: 1.1rem;
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+input {
+  height: 100%;
+  width: 100%;
+  border: none;
+  outline: none;
+  font-family: Open Sans;
+  font-size: 2rem;
+  font-weight: 400;
+  line-height: 27rem;
+  text-align: left;
+}
+
+.settings-img-div {
+  display: flex;
+  align-items: center;
+}
+
+.password-btn {
+  background-color: transparent;
+  width: 3rem;
+  padding: 0.5rem 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.update-btn {
+  width: 49.5rem;
+  height: 5.5rem;
+  border-radius: 5.5rem;
+  background-color: #17a2b8;
+  color: #fff;
+  font-family: Open Sans;
+  font-size: 2rem;
+  font-weight: 400;
+  line-height: 2.7rem;
+  text-align: center;
+  margin-top: 4rem;
+  border: none;
+}

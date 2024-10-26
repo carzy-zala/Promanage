@@ -1,0 +1,232 @@
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+
+.task-main-div {
+  background-color: #fff;
+  height: 50rem;
+  width: 65rem;
+  display: grid;
+  grid-template-rows: 0.1fr 0.5fr 1fr 6fr 1fr;
+  padding: 3rem;
+  gap: 2rem;
+  border-radius: 2rem;
+}
+
+.add-circle {
+  height: 1rem;
+  width: 1rem;
+  border-radius: 50%;
+}
+
+span {
+  padding-left: 0.2rem;
+}
+
+.title-heading {
+  font-family: Inter;
+  font-size: 1.4rem;
+  font-weight: 500;
+  line-height: 2.4rem;
+  text-align: left;
+}
+
+#title {
+  width: 588px;
+  height: 44px;
+  padding: 10px 16px 10px 16px;
+  gap: 8px;
+  border-radius: 0.4rem;
+  border: 0.1rem solid #e2e2e2;
+  font-size: 1.4rem;
+  font-weight: 400;
+  line-height: 2.4rem;
+  letter-spacing: 0.5px;
+  text-align: left;
+}
+
+/* Priority */
+
+.priority {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 1rem;
+}
+
+.priority-heading {
+  font-family: Inter;
+  font-size: 1.3rem;
+  font-weight: 500;
+  line-height: 2.5rem;
+  text-align: left;
+  display: flex;
+  align-items: center;
+}
+
+.priority-radio-btn-div {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 15rem;
+  height: 3.1rem;
+  border-radius: 1rem;
+  border: 0.1rem solid #e2e2e2;
+  padding: 0 3rem;
+}
+
+.priority-radio-btn {
+  height: 3.1rem;
+  width: 13rem;
+  position: absolute;
+  opacity: 0;
+  z-index: 999;
+}
+
+.priority-details {
+  display: flex;
+  position: absolute;
+  gap: 1rem;
+  justify-content: center;
+  align-items: center;
+}
+
+.selected-priority-high {
+  border: 0.2rem solid #ff2473;
+}
+
+.selected-priority-mod {
+  border: 0.2rem solid #18b0ff;
+}
+
+.selected-priority-low {
+  border: 0.2rem solid #63c05b;
+}
+
+/* Checklist */
+
+.checklist {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  overflow-y: auto;
+}
+
+.checklist-heading {
+  font-family: Inter;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 16.94px;
+  text-align: left;
+}
+
+/* Footer */
+
+.task-footer {
+  display: grid;
+  grid-template-columns: auto auto;
+  gap: 5rem;
+}
+
+.date-input {
+  position: absolute;
+  width: 18.5rem;
+  height: 4.5rem;
+  z-index: 999;
+}
+
+.date-btn {
+  /* position: absolute; */
+  width: 18.5rem;
+  height: 4.5rem;
+  border-radius: 1.2rem;
+  border: 0.1rem solid #e2e2e2;
+  background-color: #fff;
+  font-size: 1.6rem;
+  font-weight: 500;
+  line-height: 2rem;
+  color: #707070;
+}
+
+#dueDate {
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+  box-sizing: border-box;
+}
+#dueDate::-webkit-calendar-picker-indicator {
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  cursor: pointer;
+}
+
+.task-footer-right-btns {
+  display: flex;
+  gap: 2rem;
+}
+
+.task-update-save-btn {
+  width: 16.3rem;
+  height: 4.5rem;
+  border-radius: 1.2rem;
+  background-color: #17a2b8;
+  border: none;
+  color: #fff;
+}
+
+.task-update-cancel-btn {
+  width: 16.3rem;
+  height: 4.5rem;
+  border-radius: 1.2rem;
+  background-color: #fff;
+  border: 0.1rem solid #cf3636;
+  color: #cf3636;
+}
+
+/* todos */
+
+.delete-todo-btn {
+  background-color: transparent;
+  border: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.todo-add-new {
+  background-color: transparent;
+  width: 45rem;
+  text-align: left;
+  font-family: Inter;
+  font-size: 1.6rem;
+  font-weight: 500;
+  line-height: 2rem;
+  color: #767575;
+  border: none;
+  padding-left: 2rem;
+}
+
+.task-todos {
+  display: grid;
+  gap: 2rem;
+  padding: 0 2rem 0 0;
+  width: 57rem;
+}
+
+.task-todo {
+  display: grid;
+  grid-template-columns: 1fr 15fr 1fr;
+  gap: 1rem;
+  padding: 1rem;
+  border: 0.1rem solid #e2e2e2;
+  border-radius: 1.2rem;
+  align-items: center;
+  background-color: #fff;
+}

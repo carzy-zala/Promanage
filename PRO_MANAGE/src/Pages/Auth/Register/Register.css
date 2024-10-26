@@ -1,0 +1,91 @@
+.register-main-div {
+  padding: 3rem;
+  display: grid;
+  justify-content: center;
+  align-items: center;
+  grid-template-rows: 1fr auto ;
+  gap: 3rem;
+}
+
+.register-form{
+  display: grid;
+  grid-template-rows: 1.7fr 1fr;
+  gap: 3rem;
+}
+
+.register-input-container {
+  padding: 1rem;
+  border: 0.15rem solid #d0d0d0;
+  border-radius: 1.1rem;
+  width: 45rem;
+  height: 5rem;
+  border-radius: 1.1rem;
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.register-img-div {
+  display: flex;
+  align-items: center;
+}
+
+.register-heading {
+  font-family: Open Sans;
+  font-size: 3.3rem;
+  font-weight: 600;
+  line-height: 4.5rem;
+  text-align: center;
+  color: #343434;
+}
+
+.register-inputs {
+  display: grid;
+  grid-template-rows: 1fr 1fr 1fr 1fr;
+  gap: 2rem;
+}
+
+.auth-navigation-btn {
+  width: 45rem;
+  height: 4.3rem;
+  font-family: Open Sans;
+  font-size: 2rem;
+  font-weight: 400;
+  line-height: 2.7rem;
+  text-align: center;
+  border-radius: 5.5rem;
+  border: none;
+  padding: 0.5rem;
+}
+
+.auth-solid-btn{
+    background: #17A2B8;
+    color: #fff;
+}
+
+.auth-outline-btn{
+    color: #17A2B8;
+    background-color: transparent;
+    border: 0.1rem solid #17A2B8;
+}
+
+.password-btn{
+    border: none;
+}
+
+.register-navigation-btns{
+    display: grid;
+    grid-template-rows: 1fr 0.8fr 1fr;
+    gap: 0.8rem;
+    justify-content: center;
+    align-items: center;
+    border: none;
+}
+
+.auth-navigation{
+    width: 100%;
+    background-color: transparent;
+    border: none;
+    color:#828282;
+
+}

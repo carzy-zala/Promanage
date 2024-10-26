@@ -1,0 +1,241 @@
+.card-main-div {
+  width: 24.5rem;
+  background-color: #fff;
+  border-radius: 2rem;
+  display: grid;
+  grid-template-rows: 0.2fr 1fr auto 1fr;
+  gap: 1rem;
+  padding: 1rem 1.5rem;
+  align-items: center;
+}
+
+.red-background{
+  background-color: #cf3636;
+  color: #fff;
+}
+
+.green-background{
+  background-color: #63c05b;
+  color: #fff;
+}
+
+/* heading */
+
+.card-main-heading {
+  display: flex;
+  justify-content: space-between;
+}
+
+.card-edit-btn {
+  background-color: transparent;
+  border: none;
+  position: absolute;
+  right: 15%;
+}
+
+.card-main-priority {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.card-circle {
+  width: 1rem;
+  height: 1rem;
+  border-radius: 50%;
+}
+
+.high {
+  background-color: #ff2473;
+}
+
+.mod {
+  background-color: #18b0ff;
+}
+
+.low {
+  background-color: #63c05b;
+}
+
+.card-edit-content {
+  height: 10rem;
+  width: 13rem;
+  background-color: #fff;
+  border-radius: 1.2rem;
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1rem;
+  right: -10px;
+  top: 120%;
+  box-shadow: 0px 0.2rem 22px 0px #7e7a7a40;
+}
+
+.card-edit-content-btn {
+  border: none;
+  background-color: transparent;
+  text-align: left;
+  height: 100%;
+}
+/* title */
+
+.card-main-title {
+  font-size: 1.8rem;
+  font-weight: 500;
+  line-height: 2.7rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-transform: capitalize;
+}
+
+/* todo */
+
+.card-main-todos {
+  display: grid;
+  grid-template-rows: 1fr auto;
+}
+
+.card-main-todo-grid {
+  display: grid;
+}
+
+.todo {
+  display: flex;
+  gap: 1rem;
+  border: 0.1rem solid #e2e2e2;
+  border-radius: 1.2rem;
+  padding: 1rem;
+  align-items: center;
+}
+
+.todo-checkbox {
+  display: flex;
+  align-items: center;
+}
+
+.checkmark {
+  height: 2rem;
+  width: 2rem;
+  border-radius: 0.5rem;
+  border: 0.1rem solid #e2e2e2;
+}
+
+.card-main-todo {
+  display: flex;
+  justify-content: space-between;
+  font-size: 1.4rem;
+  font-weight: 500;
+  line-height: 1.7rem;
+  text-align: left;
+  align-items: center;
+}
+
+.card-main-collapase-btn {
+  padding: 0.1rem 0.4rem;
+  border-radius: 0.3rem;
+  border: none;
+}
+
+.card-main-todo-status {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 0.5rem;
+}
+
+.card-main-todo-status-btn {
+  border-radius: 0.5rem;
+  font-family: Poppins;
+  font-size: 0.7rem;
+  font-weight: 500;
+  line-height: 1.2rem;
+  text-align: center;
+  padding: 0.1rem 0.4rem;
+  border: none;
+}
+
+.card-main-todo-status-btns {
+  border-radius: 0.3rem;
+  font-family: Poppins;
+  font-size: 0.8rem;
+  font-weight: 500;
+  line-height: 1.2rem;
+  text-align: center;
+  padding: 0.15rem 0.4rem;
+  border: none;
+}
+
+.card-main-footer {
+  display: grid;
+  justify-content: space-between;
+  grid-template-columns: 1fr 2fr;
+}
+
+/* Delete */
+
+.delete-main-div {
+  background-color: #fff;
+  width: 33.5rem;
+  height: 20rem;
+  display: grid;
+  grid-template-rows: 1fr 2fr 2fr;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  border-radius: 1rem;
+}
+
+.delete-heading {
+  font-size: 1.4rem;
+  font-weight: 600;
+  line-height: 2rem;
+  text-align: center;
+}
+
+.delete-confirm-btn {
+  width: 30rem;
+  height: 4.5rem;
+  border-radius: 1.2rem;
+  background-color: #17a2b8;
+  box-shadow: 0px 2px 12px 0px #82698c33;
+  font-size: 1.6rem;
+  font-weight: 600;
+  line-height: 2rem;
+  color: #fff;
+  border: none;
+}
+
+.delete-cancel-btn {
+  width: 30rem;
+  height: 4.5rem;
+  border-radius: 1.2rem;
+  background-color: transparent;
+  font-size: 1.6rem;
+  font-weight: 600;
+  line-height: 2rem;
+  color: #cf3636;
+  border: 0.1rem solid #cf3636;
+}
+
+.share-toast {
+  position: absolute;
+  top: 4%;
+  right: 1%;
+  width: 20.5rem;
+  height: 6.2rem;
+  padding: 2rem;
+  border-radius: 1.2rem;
+  border: 0.1rem solid #48c1b5;
+  opacity: 0px;
+  box-shadow: 0px 4px 16px 0px #100b2714;
+  font-family: Poppins;
+  font-size: 1.6rem;
+  font-weight: 600;
+  line-height: 2.3rem;
+  color: #27303A;
+  z-index: 999;
+  text-align: center;
+  background-color: #F6FFF9;
+  ;
+}
