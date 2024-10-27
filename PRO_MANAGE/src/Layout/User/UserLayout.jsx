@@ -5,19 +5,17 @@ import "./UserLayout.css";
 import axioInstance from "../../service/axios.js";
 import { useDispatch } from "react-redux";
 import { login } from "../../Feature/userSlice.js";
+import setToken from "../../utils/setToken.js";
 
 function UserLayout() {
   const navigator = useNavigate();
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (!localStorage.getItem("accessToken")) {
       navigator("/login");
     } else {
-      axioInstance.defaults.headers.common.Authorization = `Bearer ${localStorage.getItem(
-        "accessToken"
-      )}`;
-
+      setToken(localStorage.getItem("accessToken"));
       dispatch(
         login({
           name: localStorage.getItem("name"),
