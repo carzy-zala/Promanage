@@ -1,5 +1,32 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import axios from "axios";
+import { apiRoutes } from "../service/ApiRoutes.js";
+import { axiosGet } from "../service/AxiosConfig.js";
 
+export const fetchTasks = createAsyncThunk("task/fetchTasks", (day = 7) => {
+  if (day === 30) {
+    return axiosGet(
+      `${import.meta.env.VITE_BACKEND_API_URL}${apiRoutes.TASK_MONTH}`
+    ).then((response) => {
+      return {userTasks : response.data.userTasks , selectedTime:30};
+    });
+  }
+
+  if (day === 1) {
+    return axiosGet(
+      `${import.meta.env.VITE_BACKEND_API_URL}${apiRoutes.TASK_DAY}`
+    ).then((response) => {      
+      return {userTasks : response.data.userTasks , selectedTime:1};
+    });
+  }
+
+  return axiosGet(
+    `${import.meta.env.VITE_BACKEND_API_URL}${apiRoutes.TASK_WEEK}`
+  ).then((response) => {
+    
+    return {userTasks : response.data.userTasks , selectedTime:7};
+  });
+});
 
 const initialState = {
   backlogTask: 0,
@@ -10,45 +37,23 @@ const initialState = {
   lowPriority: 0,
   modPriority: 0,
   highPriority: 0,
-  backlogTasks: [
-    {
-      todos: [
-        {
-          _id: "67193875a58aba8e7f46e2ea",
-          text: "Do Javascript",
-          completed: false,
-          __v: 0,
-        },
-        {
-          _id: "67193875a58aba8e7f46e2ec",
-          text: "Do C++",
-          completed: true,
-          __v: 0,
-        },
-        {
-          _id: "67193875a58aba8e7f46e2ee",
-          text: "Do Python",
-          completed: false,
-          __v: 0,
-        },
-      ],
-      title: "Hero title",
-      priority: "high",
-      dueDate: "2024-10-25T18:30:00.000Z",
-      state: "progress",
-    },
-  ],
+  backlogTasks: [],
   todoTasks: [],
   inProgressTasks: [],
   completedTasks: [],
+  selectedTime : 7
 };
 
 const taskReducer = createSlice({
   name: "tasks",
   initialState,
-  reducers: {
-    fetchTasks: (state, action) => {
-      const { tasks } = action.payload;
+
+  extraReducers: (builder) => {
+    builder.addCase(fetchTasks.pending, (state) => {});
+    builder.addCase(fetchTasks.fulfilled, (state, action) => {
+      const { userTasks: tasks ,selectedTime} = action.payload;
+
+      state.selectedTime = selectedTime;
 
       state.backlogTasks = tasks.filter((task) => task.state === "backlog");
       state.inProgressTasks = tasks.filter((task) => task.state === "progress");
@@ -78,11 +83,11 @@ const taskReducer = createSlice({
       state.dueDateTask = tasks.filter(
         (task) => task.dueData === new Date()
       ).length;
-    },
-    
+    });
+    builder.addCase(fetchTasks.rejected, (state, action) => {
+      state.error = "Please try again later !";
+    });
   },
 });
-
-export const { fetchTasks } = taskReducer.actions;
 
 export default taskReducer.reducer;

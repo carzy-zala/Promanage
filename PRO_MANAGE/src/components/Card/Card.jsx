@@ -7,6 +7,15 @@ import Container from "../Container.jsx";
 import formatDate from "../../utils/formateDateCard.js";
 import { createPortal } from "react-dom";
 import Task from "../Task/Task.jsx";
+import {
+  axiosDelete,
+  axiosGet,
+  axiosPatch,
+} from "../../service/AxiosConfig.js";
+import { apiRoutes } from "../../service/ApiRoutes.js";
+import { toast } from "react-toastify";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchTasks } from "../../Feature/taskSlice.js";
 
 function isSameDate(date1, timeZone = "Asia/Kolkata") {
   const date2 = new Date();
@@ -28,6 +37,7 @@ function isSameDate(date1, timeZone = "Asia/Kolkata") {
 
 function Card({ task, collapseAll }) {
   const { title, priority, dueDate, todos, state } = task;
+  const selectedTime = useSelector((store) => store.tasks.selectedTime);
 
   const [completedTodo, setCompletedTodo] = useState(
     todos.filter((todo) => todo.completed === true).length
@@ -35,24 +45,111 @@ function Card({ task, collapseAll }) {
 
   const [collapseTodo, setCollapseTodo] = useState(true);
   const [dropDownClick, setDropDownClick] = useState(false);
-
   const [isDeleteClick, setIsDeleteClick] = useState(false);
+  const [isDeleteLoading, setIsDeleteLoading] = useState(false);
+  const [isCompletedLoading, setIsCompletedLoading] = useState(false);
   const [isEditClick, setIsEditClick] = useState(false);
   const [isShareClick, setIsShareClick] = useState(false);
+  const dispatch = useDispatch();
 
+  const handleStateChange = async (taskState) => {
+    const response = await axiosPatch(
+      `${import.meta.env.VITE_BACKEND_API_URL}${apiRoutes.STATE_CHANGE_TASK}`,
+      {
+        taskId: task._id,
+        newState: taskState,
+      }
+    );
 
-  const handleStateChange = (taskState) =>{
-     
-  }
+    if (response.success) {
+      dispatch(fetchTasks(selectedTime));
+    } else {
+      toast.error(response.message);
+    }
+  };
 
   const handleEditPortal = (value) => {
+    setCompletedTodo();
     setIsEditClick(value);
-    setDropDownClick(false)
+    setDropDownClick(false);
+  };
+
+  useEffect(() => {
+    setCompletedTodo(todos.filter((todo) => todo.completed === true).length);
+  }, [handleEditPortal]);
+
+  const handleDeleteTask = async () => {
+    setDropDownClick(false);
+
+    if (!isDeleteLoading) {
+      setIsDeleteLoading(true);
+
+      const response = await axiosDelete(
+        `${import.meta.env.VITE_BACKEND_API_URL}${
+          apiRoutes.DELETE_TASK
+        }`.replace(":taskId", task._id)
+      );
+
+      if (response.success) {
+        toast.success(response.message);
+        dispatch(fetchTasks(selectedTime));
+      } else {
+        toast.error(response.message);
+      }
+      setIsDeleteLoading(false);
+      setIsDeleteClick(false);
+    }
+  };
+
+  const handleTodoComplete = async (todoId) => {
+    if (!isCompletedLoading) {
+      setIsCompletedLoading(true);
+
+      const response = await axiosGet(
+        `${import.meta.env.VITE_BACKEND_API_URL}${
+          apiRoutes.COMPLETED_TODO
+        }`.replace(":todoId", todoId)
+      );
+
+      if (response.success) {
+        const updatedTodos = todos.map((todo) =>
+          todo._id === todoId ? { ...todo, completed: !todo.completed } : todo
+        );
+        setCompletedTodo(updatedTodos.filter((todo) => todo.completed).length);
+
+        dispatch(fetchTasks(selectedTime));
+      } else {
+        toast.error(response.message);
+      }
+      setIsCompletedLoading(false);
+    }
   };
 
   useEffect(() => {
     setCollapseTodo(true);
   }, [collapseAll]);
+
+  const handleShare = () => {
+    const textToCopy = window.location.origin + "/task/" + task._id;
+
+
+    navigator.clipboard
+      .writeText(textToCopy)
+      .then(() => {
+        setIsShareClick(!isShareClick);
+        setTimeout(() => {
+          setIsShareClick((prev) => !prev);
+        }, 3000);
+        setDropDownClick(false)
+
+      })
+      .catch((err) => {
+        setIsShareClick(!isShareClick);
+        setTimeout(() => {
+          setIsShareClick((prev) => !prev);
+        }, 3000);
+      });
+  };
 
   return (
     <div>
@@ -96,12 +193,7 @@ function Card({ task, collapseAll }) {
                 <Button
                   children="Share"
                   className="card-edit-content-btn"
-                  onClick={() => {
-                    setIsShareClick(!isShareClick);
-                    setTimeout(() => {
-                      setIsShareClick((prev) => !prev);
-                    }, 3000);
-                  }}
+                  onClick={handleShare}
                 />
                 <Button
                   children="Delete"
@@ -136,7 +228,11 @@ function Card({ task, collapseAll }) {
               <div key={todo._id} className="card-main-todo-grid">
                 <Container className="todo">
                   <div className="todo-checkbox">
-                    <input type="checkbox" defaultChecked={todo.completed} />
+                    <input
+                      type="checkbox"
+                      defaultChecked={todo.completed}
+                      onChange={() => handleTodoComplete(todo._id)}
+                    />
                   </div>
                   <div>{todo.text}</div>
                 </Container>
@@ -146,35 +242,66 @@ function Card({ task, collapseAll }) {
 
         <div className="card-main-footer">
           <div>
-            <Button
-              className={`${
-                isSameDate(dueDate) &&
-                priority === "high" &&
-                state !== "done" &&
-                "red-background"
-              } ${
-                state === "done" && "green-background"
-              }  card-main-todo-status-btns `}
-            >
-              {formatDate(dueDate)}
-            </Button>
+            {dueDate && (
+              <Button
+                className={`${
+                  isSameDate(dueDate) &&
+                  priority === "high" &&
+                  state !== "done" &&
+                  "red-background"
+                } ${
+                  state === "done" && "green-background"
+                }  card-main-todo-status-btns `}
+              >
+                {formatDate(dueDate)}
+              </Button>
+            )}
           </div>
           <div className="card-main-todo-status">
             {state !== "progress" && (
-              <Button className="card-main-todo-status-btn" onClick={()=>{handleStateChange("progress")}}>Progress</Button>
+              <Button
+                className="card-main-todo-status-btn"
+                onClick={() => {
+                  handleStateChange("progress");
+                }}
+              >
+                Progress
+              </Button>
             )}
             {state !== "todo" && (
-              <Button className="card-main-todo-status-btn" onClick={()=>{handleStateChange("todo")}}>To-Do</Button>
+              <Button
+                className="card-main-todo-status-btn"
+                onClick={() => {
+                  handleStateChange("todo");
+                }}
+              >
+                To-Do
+              </Button>
             )}
             {state !== "backlog" && (
-              <Button className="card-main-todo-status-btn" onClick={()=>{handleStateChange("backlog")}}>Backlog</Button>
+              <Button
+                className="card-main-todo-status-btn"
+                onClick={() => {
+                  handleStateChange("backlog");
+                }}
+              >
+                Backlog
+              </Button>
             )}
             {state !== "done" && (
-              <Button className="card-main-todo-status-btn" onClick={()=>{handleStateChange("done")}}>Done</Button>
+              <Button
+                className="card-main-todo-status-btn"
+                onClick={() => {
+                  handleStateChange("done");
+                }}
+              >
+                Done
+              </Button>
             )}
           </div>
         </div>
       </div>
+
       {isDeleteClick &&
         createPortal(
           <div className="portal-div">
@@ -186,10 +313,7 @@ function Card({ task, collapseAll }) {
                 <Button
                   className="delete-confirm-btn"
                   children="Yes, Delete"
-                  onClick={() => {
-                    setDropDownClick(!dropDownClick);
-                    setIsDeleteClick(!isDeleteClick);
-                  }}
+                  onClick={handleDeleteTask}
                 />
               </div>
               <div>
@@ -197,7 +321,7 @@ function Card({ task, collapseAll }) {
                   className="delete-cancel-btn"
                   children="Cancel"
                   onClick={() => {
-                    setIsDeleteClick(!isDeleteClick);
+                    setIsDeleteClick(true);
                   }}
                 />
               </div>
@@ -209,7 +333,11 @@ function Card({ task, collapseAll }) {
       {isEditClick &&
         createPortal(
           <div className="portal-div">
-            <Task handleCreatePortal={handleEditPortal} editTask={task} />
+            <Task
+              handleCreatePortal={handleEditPortal}
+              isEditTask={true}
+              editTask={task}
+            />
           </div>,
           document.body
         )}

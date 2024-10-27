@@ -24,7 +24,7 @@ export const addTask = asyncHandler(async (req, res) => {
   const owner = req.user._id;
   const { title, priority, assignTo, dueDate, todos } = req.body;
 
-  if ([title, priority, dueDate].some((field) => field.trim() === "")) {
+  if ([title, priority].some((field) => field.trim() === "")) {
     throw new ApiError(
       400,
       "ERROR :: Title,Priority and Due Date are compulsory !!"
@@ -47,6 +47,7 @@ export const addTask = asyncHandler(async (req, res) => {
   for (let todo of todos) {
     try {
       const { text, completed } = todo;
+
       await Todo.create({
         text,
         completed,
@@ -150,6 +151,44 @@ export const allTasksOfMonth = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, { userTasks }, "Tasks fetched successfully !"));
 });
 
+export const allTasksOfDay = asyncHandler(async (req, res) => {
+  const owner = req.user._id;
+
+  const { startOfLastWeek, currentDate } = getCurrentDateRange(1);
+
+  const tasks = await Task.find({
+    owner,
+    createdAt: {
+      $gte: startOfLastWeek,
+      $lte: currentDate,
+    },
+  }).select("-owner");
+
+  if (!tasks) {
+    res
+      .status(200)
+      .json(new ApiResponse(200, {}, "Todays Tasks fetched succesfully !"));
+  }
+
+  let userTasks = [];
+
+  for (let task of tasks) {
+    try {
+      const todos = await Todo.find({ taskId: task._id }).select("-taskId");
+      userTasks.push({ ...task._doc, todos });
+    } catch (error) {
+      throw new ApiError(
+        400,
+        "ERROR :: Error occurred while fetching all todos !"
+      );
+    }
+  }
+
+  res
+    .status(200)
+    .json(new ApiResponse(200, { userTasks }, "Tasks fetched successfully !"));
+});
+
 export const task = asyncHandler(async (req, res) => {
   const { taskId } = req.params;
 
@@ -215,6 +254,7 @@ export const editTask = asyncHandler(async (req, res) => {
         const existedTodo = await Todo.findById(todo._id).select("-taskId");
         existedTodo.text = text;
         existedTodo.completed = completed;
+
         existedTodo.save();
       }
     } catch (error) {
@@ -226,7 +266,6 @@ export const editTask = asyncHandler(async (req, res) => {
 
   const updatedTodo = await Todo.find({ taskId: task._id }).select("-taskId");
 
-
   res
     .status(200)
     .json(
@@ -236,6 +275,30 @@ export const editTask = asyncHandler(async (req, res) => {
         "Task edited successfully !"
       )
     );
+});
+
+//#endregion
+
+//#region edit state
+
+export const editState = asyncHandler(async (req, res) => {
+  const { taskId, newState } = req.body;
+
+  const task = await Task.findById(taskId);
+
+  if (!task) {
+    throw new ApiError(500, "ERROR :: Sorry ! Task status can't be change !");
+  }
+
+  await Task.findByIdAndUpdate(
+    taskId,
+    { $set: { state: newState } },
+    { new: true }
+  );
+
+  res
+    .status(200)
+    .json(new ApiResponse(200, {}, "Task status updated succesfully !"));
 });
 
 //#endregion

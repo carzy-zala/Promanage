@@ -2,8 +2,8 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   isAuthenticated: false,
-  name: "Jayraj",
-  email: "j@gmail.com",
+  name: "",
+  email: "",
 };
 
 const userReducer = createSlice({
@@ -20,7 +20,7 @@ const userReducer = createSlice({
     },
     login: (state, action) => {
       state.isAuthenticated = true;
-      const { name, email } = action.payload.user;
+      const { name, email } = action.payload;
       state.name = name;
       state.email = email;
     },

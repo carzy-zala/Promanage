@@ -8,10 +8,10 @@ import { useForm } from "react-hook-form";
 import Loader from "../../../components/Loader/Loader";
 import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
-import store from "../../../Store/Store";
 import { axiosPost } from "../../../service/AxiosConfig";
 import { apiRoutes } from "../../../service/ApiRoutes";
 import { login } from "../../../Feature/userSlice";
+import setToken from "../../../utils/setToken";
 
 function Login() {
   const [showPassword, setShowPassword] = useState(false);
@@ -34,23 +34,30 @@ function Login() {
     },
   });
 
-  const login = async (data) => {
-    console.log(data);
-
+  const loginUser = async (data) => {
     if (!isLoading) {
       const { email, password } = data;
       setIsLoading(true);
 
       const response = await axiosPost(
-        `${impotr.meta.env.VITE_BACKEND_API_URL}${apiRoutes.LOGIN_USER}`,
+        `${import.meta.env.VITE_BACKEND_API_URL}${apiRoutes.LOGIN_USER}`,
         { email, password }
       );
 
       if (response.success) {
         toast.success(response.message);
+
         dispatch(
-          login({ name: response.data.name, email: response.data.email })
+          login({
+            name: response.data.user.name,
+            email: response.data.user.email,
+          })
         );
+
+        localStorage.setItem("name",response.data.user.name)
+        localStorage.setItem("email",response.data.user.email)
+
+        setToken(response.data.accessToken, response.data.refreshToken);
         navigator("/user/board");
       } else {
         toast.error(response.message);
@@ -69,7 +76,7 @@ function Login() {
     <div className="login-main-div">
       <div className="login-heading">Login</div>
 
-      <form onSubmit={handleSubmit(login, loginError)}>
+      <form onSubmit={handleSubmit(loginUser, loginError)}>
         <div className="login-form">
           <div className="login-inputs">
             <Container className="login-input-container password-container">
@@ -136,6 +143,9 @@ function Login() {
               <Button
                 className="auth-navigation-btn auth-outline-btn"
                 children="Register"
+                onClick={() => {
+                  navigator("/");
+                }}
               />
             </div>
           </div>

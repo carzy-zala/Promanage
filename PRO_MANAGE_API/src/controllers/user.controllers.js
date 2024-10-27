@@ -47,7 +47,7 @@ export const registerUser = asyncHandler(async (req, res) => {
   }
 
   const user = await User.create({
-    name: name.toLowerCase(),
+    name: name,
     email,
     password,
   });
@@ -106,7 +106,7 @@ export const loginUser = asyncHandler(async (req, res) => {
       new ApiResponse(
         200,
         { accessToken, refreshToken, user: loggedInUser },
-        `Welcome , ${loggedInUser.name}`
+        `Welcome , ${loggedInUser.name.toUpperCase()}`
       )
     );
 });
@@ -128,7 +128,7 @@ export const updateUserDetails = asyncHandler(async (req, res) => {
   const isValidPassword = await user.isPasswordCorrect(password);
 
   if (!isValidPassword) {
-    throw new ApiError(400, "ERORR :: Invalid password !");
+    throw new ApiError(400, "ERORR :: Invalid old password !");
   }
 
   user.name = name;

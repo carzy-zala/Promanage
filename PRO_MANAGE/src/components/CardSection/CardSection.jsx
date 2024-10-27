@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./CardSection.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
@@ -6,13 +6,19 @@ import Button from "../Button.jsx";
 import Card from "../Card/Card.jsx";
 import { createPortal } from "react-dom";
 import Task from "../Task/Task.jsx";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchTasks } from "../../Feature/taskSlice.js";
 
 function CardSection({ tasks = [], leftsidename, ...props }) {
   const [allCollapse, setAllCollapse] = useState(false);
   const [createTaskClick, setCreateTaskClick] = useState(false);
+  const selectedTime = useSelector(store => store.tasks.selectedTime)
+
+  const dispatch = useDispatch();
 
   const handleCreatePortal = (value) => {
-    setCreateTaskClick(value);
+    setCreateTaskClick(value);    
+    dispatch(fetchTasks(selectedTime));
   };
 
   return (

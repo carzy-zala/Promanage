@@ -1,10 +1,32 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Sidebar from "../../components/Sidebar/Sidebar.jsx";
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import "./UserLayout.css";
+import axioInstance from "../../service/axios.js";
+import { useDispatch } from "react-redux";
+import { login } from "../../Feature/userSlice.js";
 
 function UserLayout() {
-  
+  const navigator = useNavigate();
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    if (!localStorage.getItem("accessToken")) {
+      navigator("/login");
+    } else {
+      axioInstance.defaults.headers.common.Authorization = `Bearer ${localStorage.getItem(
+        "accessToken"
+      )}`;
+
+      dispatch(
+        login({
+          name: localStorage.getItem("name"),
+          email: localStorage.getItem("email"),
+        })
+      );
+    }
+  }, []);
+
   return (
     <div className="user-layout">
       <Sidebar />

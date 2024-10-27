@@ -1,4 +1,3 @@
-import axios from "axios";
 import axiosInstance from "./axios.js";
 
 const generateResponse = (responseFromBackend) => {
@@ -34,8 +33,6 @@ export const axiosGet = async (
     const result = await axiosInstance.get(url, {
       headers: {
         "Content-Type": contentType,
-        Authorization:
-          "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MTg4MzBhNTAyNzI4OWY3NzE1NjQ5NSIsIm5hbWUiOiJKYXlyYWpzaW5oIE4gWmFsYSIsImVtYWlsIjoibXIuemFsYTIwMDNAZ21haWwuY29tIiwiaWF0IjoxNzI5Nzk3NzEwLCJleHAiOjE3Mjk4ODQxMTB9.ZLQzDG1M07uYqLh6XXfGVsiMul9DVZQ41l7deYXHbN0",
       },
       params,
     });
@@ -111,6 +108,31 @@ export const axiosPatch = async (
   let response = {};
   try {
     const result = await axiosInstance.patch(url, data, {
+      headers: {
+        "Content-Type": contentType,
+      },
+      params,
+    });
+    response = { ...generateResponse(result.data) };
+  } catch (error) {
+    response = { ...generateError(error) };
+  }
+  return response;
+};
+
+//#endregion
+
+//#region PUT
+
+export const axiosPut = async (
+  url,
+  data,
+  params = {},
+  contentType = "application/json"
+) => {
+  let response = {};
+  try {
+    const result = await axiosInstance.put(url, data, {
       headers: {
         "Content-Type": contentType,
       },

@@ -2,9 +2,6 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import CardSection from "../../components/CardSection/CardSection.jsx";
 import "./Board.css";
-import { axiosGet } from "../../service/AxiosConfig.js";
-import { apiRoutes } from "../../service/ApiRoutes.js";
-import axios from "axios";
 import { fetchTasks } from "../../Feature/taskSlice.js";
 
 function getFormattedDate() {
@@ -38,20 +35,19 @@ function Board() {
   const tasks = useSelector((store) => store.tasks);
   const user = useSelector((store) => store.user);
 
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    (async () => {
-      const response = await axiosGet(
-        `${import.meta.env.VITE_BACKEND_API_URL}${apiRoutes.TASK_WEEK}`
-      );
+    dispatch(fetchTasks());
+  }, []);
 
-      if (response.success) {
-        console.log(response);
-        dispatch(fetchTasks({tasks:response.data.userTasks}))
-      }
-    })();
-  });
+  const handleSelectChange = (event) => {
+    event.target.value === "week"
+      ? dispatch(fetchTasks())
+      : event.target.value === "day"
+      ? dispatch(fetchTasks(1))
+      : dispatch(fetchTasks(30));
+  };
 
   return (
     <div className="board-main-div">
@@ -63,7 +59,16 @@ function Board() {
         <div className="board-heading-and-dropdown">
           <div className="board-heading">Board</div>
           <div className="board-select">
-            <select defaultValue="week">
+            <select
+              defaultValue={
+                tasks.selectedTime === 7
+                  ? "week"
+                  : tasks.selectedTime === 1
+                  ? "day"
+                  : "month"
+              }
+              onChange={handleSelectChange}
+            >
               <option value="day">This Day</option>
               <option value="week">This Week</option>
               <option value="month">This Month</option>

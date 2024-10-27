@@ -6,6 +6,10 @@ import Button from "../../components/Button.jsx";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
+import Loader from "../../components/Loader/Loader.jsx";
+import { useNavigate } from "react-router-dom";
+import { axiosPut} from "../../service/AxiosConfig.js";
+import { apiRoutes } from "../../service/ApiRoutes.js";
 
 function Settings() {
   const [showPassword, setShowPassword] = useState(false);
@@ -26,8 +30,31 @@ function Settings() {
     },
   });
 
+  const navigator = useNavigate();
+
+  const [isLoading, setIsLoading] = useState(false);
+
   const update = async (data) => {
     console.log(data);
+
+    if (!isLoading) {
+      setIsLoading(true);
+
+      const response = await axiosPut(
+        `${import.meta.env.VITE_BACKEND_API_URL}${apiRoutes.UPDATE_USER}`,
+        data
+      );
+
+      if (response.success) {
+        toast.success(response.message);
+
+        navigator("/login");
+      } else {
+        toast.error(response.message);
+      }
+
+      setIsLoading(false);
+    }
   };
 
   const updateError = async (errors) => {
@@ -152,7 +179,13 @@ function Settings() {
           </Container>
         </div>
         <div>
-          <Button className="update-btn" children="Update" type="submit" />
+          <Button
+            className="update-btn"
+            children={
+              isLoading ? <Loader backgroundColor={"white"} /> : "Update"
+            }
+            type="submit"
+          />
         </div>
       </form>
     </div>

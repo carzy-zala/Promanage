@@ -7,6 +7,7 @@ import UserLayout from "../Layout/User/UserLayout.jsx";
 import Analytics from "../Pages/Analytics/Analytics.jsx"
 import Settings from "../Pages/Settings/Settings.jsx"
 import Board from "../Pages/Board/Board.jsx"
+import ShareTask from "../components/ShareTask/ShareTask.jsx";
 
 export const router = createBrowserRouter([
   {
@@ -41,4 +42,8 @@ export const router = createBrowserRouter([
       }
     ],
   },
+  {
+    path: "/task/:taskId",
+    element : <ShareTask />
+  }
 ]);

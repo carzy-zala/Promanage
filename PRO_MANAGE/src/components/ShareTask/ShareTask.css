@@ -1,0 +1,122 @@
+.share-task-main-div {
+  display: flex;
+  justify-content: center;
+  align-items: start;
+  padding-top: 5rem;
+  padding-bottom: 10rem;
+}
+
+.share-task-div {
+  width: 60rem;
+  border-radius: 1.2rem;
+  background-color: #ffffff;
+  border: 2px solid #edf5fe;
+  padding: 3rem 3rem 7rem 3rem;
+  display: grid;
+  gap: 3rem;
+}
+
+.share-task-heading {
+  display: grid;
+  gap: 1rem;
+}
+
+.share-priority {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  gap: 1rem;
+}
+
+.share-priority-circle {
+  width: 1rem;
+  height: 1rem;
+  border-radius: 50%;
+}
+
+.share-task-title {
+  font-size: 2.2rem;
+  font-weight: 500;
+  line-height: 3.3rem;
+  text-align: left;
+}
+
+.share-task-checklist-heading {
+  font-size: 1.4rem;
+  font-weight: 500;
+  line-height: 1.7rem;
+  text-align: left;
+}
+
+.share-todos {
+  display: grid;
+  gap: 2rem;
+  overflow-y: auto;
+  overflow-x: hidden;
+  max-height: 20rem;
+  padding: 0 0 2rem 0;
+}
+
+.share-task-bottom {
+  display: grid;
+  gap: 2rem;
+}
+
+.share-todo-container {
+  width: 50rem;
+  height: 4.3rem;
+  padding: 1.2rem;
+  border-radius: 1.2rem;
+  border: 1px solid #e2e2e2;
+  display: grid;
+  grid-template-columns: 0fr auto;
+  gap: 2rem;
+  justify-content: start;
+  align-items: center;
+}
+
+.share-task-todo {
+  font-size: 1.6rem;
+  font-weight: 400;
+  line-height: 2rem;
+  text-align: left;
+}
+
+.checkbox {
+  height: 2rem;
+  width: 2rem;
+}
+
+.share-task-duedate {
+  font-size: 1.4rem;
+  font-weight: 500;
+  line-height: 2.1rem;
+  text-align: left;
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+}
+
+.share-task-duedate-btn{
+    padding: 0.6rem 1rem;
+    background-color: #CF3636;
+    color: #edf5fe;
+    border-radius: 0.9rem;
+}
+
+@media screen and (max-width:426px) {
+  .share-task-div{
+    width: 85%;
+    max-height: 80%;
+    padding: 3rem;
+  }
+  .share-todo-container{
+    width: 95%;
+  }
+  .share-todos{
+    max-height: 30rem;
+  }
+  .share-task-main-div{
+    padding: 3rem 0;
+  }
+}

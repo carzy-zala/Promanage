@@ -4,9 +4,16 @@ import Input from "../Input";
 import Button from "../Button";
 import { useFieldArray, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
+import { axiosDelete, axiosPatch, axiosPost } from "../../service/AxiosConfig";
+import { apiRoutes } from "../../service/ApiRoutes.js";
+import Loader from "../Loader/Loader.jsx";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchTasks } from "../../Feature/taskSlice.js";
+import { useNavigate } from "react-router-dom";
 
 function Task({
   handleCreatePortal,
+  isEditTask = false,
   editTask = {
     title: "",
     priority: "",
@@ -22,13 +29,46 @@ function Task({
     control,
   } = useForm({ defaultValues: editTask });
 
+  const selectedTime = useSelector(store=>store.tasks.selectedTime)
+
   const { fields, append, remove } = useFieldArray({
     control,
     name: "todos",
   });
 
-  const task = (data) => {
-    console.log(data);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isDeleteTodo, setIsDeleteTodo] = useState(false);
+  const dispatch = useDispatch();
+  const navigator = useNavigate();
+
+  const task = async (data) => {
+    if (!isLoading) {
+      setIsLoading(true);
+
+      let response;
+      if (isEditTask) {
+        response = await axiosPatch(
+          `${import.meta.env.VITE_BACKEND_API_URL}${apiRoutes.EDIT_TASK}`,
+          data
+        );
+      } else {
+        response = await axiosPost(
+          `${import.meta.env.VITE_BACKEND_API_URL}${apiRoutes.TASK_CREATE}`,
+          data
+        );
+      }
+
+      if (response.success) {
+        dispatch(fetchTasks(selectedTime)); 
+        toast.success(response.message);
+        handleCreatePortal(false);
+      } else {
+        toast.error(response.message);
+      }
+
+
+      setIsLoading(false);
+    }
   };
 
   const [completedTask, setCompletedTask] = useState(
@@ -44,6 +84,28 @@ function Task({
         toast.error(errors["priority"].message);
         break;
     }
+  };
+
+  const handleDeleteTodo = async (index) => {
+    if (isEditTask && !isDeleteTodo) {
+      setIsDeleteTodo(true);
+
+      const response = await axiosDelete(
+        `${import.meta.env.VITE_BACKEND_API_URL}${
+          apiRoutes.DELETE_TODO
+        }`.replace(":todoId", editTask.todos[index]._id)
+      );
+
+      if (response.success) {
+        toast.success(response.message);
+      } else {
+        toast.error(response.message);
+      }
+
+      setIsDeleteTodo(false);
+    }
+
+    remove(index);
   };
 
   return (
@@ -145,26 +207,25 @@ function Task({
           <div className="task-todos">
             {fields.map((field, index) => (
               <div className="task-todo" key={`todos.${index}`}>
-                {console.log(field.text)}
                 <Input
                   onClick={() => {
-                    !watch(`fields[${index}]completed`)
+                    !watch(`todos[${index}]completed`)
                       ? setCompletedTask((prev) => prev + 1)
                       : setCompletedTask((prev) => prev - 1);
                   }}
-                  {...register(`fields.${index}.completed`)}
+                  {...register(`todos.${index}.completed`)}
                   type="checkbox"
-                  defaultChecked = {field.completed}
+                  defaultChecked={field.completed}
                 />
                 <Input
-                  {...register(`fields.${index}.text`)}
+                  {...register(`todos.${index}.text`)}
                   placeholder="Add a task"
-                  value={field.text}
+                  defaultvalues={field.text || ""}
                 />
                 <div>
                   <Button
                     className="delete-todo-btn"
-                    onClick={() => remove(index)}
+                    onClick={() => handleDeleteTodo(index)}
                   >
                     <img src="/delete.svg" height="25px" />
                   </Button>
@@ -175,7 +236,7 @@ function Task({
               className="todo-add-new"
               children="+ Add New"
               onClick={() => {
-                append({ text: "", completed: "" });
+                append({ text: "", completed: false });
               }}
             />
           </div>
@@ -200,7 +261,7 @@ function Task({
             />
             <Button
               className="task-update-save-btn"
-              children="Save"
+              children={isLoading ? <Loader backgroundColor="white" /> : "Save"}
               type="submit"
             />
           </div>
