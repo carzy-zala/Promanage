@@ -14,7 +14,7 @@ function UserLayout() {
     if (!localStorage.getItem("accessToken")) {
       navigator("/login");
     } else {
-      dispatch(initialized);
+      dispatch(initialized());
       dispatch(
         login({
           name: localStorage.getItem("name"),
