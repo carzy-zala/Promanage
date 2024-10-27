@@ -9,9 +9,30 @@
   align-items: center;
 }
 
+.assigned-circle{
+  height: 2rem;
+  width: 2rem;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-transform: uppercase;
+  color: #fff;
+  flex-shrink: 0;
+}
+
+.assigned-circles{
+  display: flex;
+  gap: 0.2rem;
+  width: 7rem;
+  height: 2rem;
+  overflow: hidden;
+}
+
 .red-background{
   background-color: #cf3636;
   color: #fff;
+  
 }
 
 .green-background{
@@ -217,6 +238,7 @@
   color: #cf3636;
   border: 0.1rem solid #cf3636;
 }
+
 
 .share-toast {
   position: absolute;

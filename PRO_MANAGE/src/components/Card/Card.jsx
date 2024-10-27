@@ -32,7 +32,7 @@ function isSameDate(date1, timeZone = "Asia/Kolkata") {
     new Date(date2)
   );
 
-  return dateString1 === dateString2;
+  return dateString1 <= dateString2;
 }
 
 function Card({ task, collapseAll }) {
@@ -132,7 +132,6 @@ function Card({ task, collapseAll }) {
   const handleShare = () => {
     const textToCopy = window.location.origin + "/task/" + task._id;
 
-
     navigator.clipboard
       .writeText(textToCopy)
       .then(() => {
@@ -140,8 +139,7 @@ function Card({ task, collapseAll }) {
         setTimeout(() => {
           setIsShareClick((prev) => !prev);
         }, 3000);
-        setDropDownClick(false)
-
+        setDropDownClick(false);
       })
       .catch((err) => {
         setIsShareClick(!isShareClick);
@@ -171,7 +169,15 @@ function Card({ task, collapseAll }) {
               : priority === "mod"
               ? "MODERATE PRIORITY"
               : "LOW PRIORITY"}
+            <div className="assigned-circles">
+              {task.assignTo.map((person,index) => (
+                <div className="assigned-circle" style={{
+                  backgroundColor : index%2 ? "#ff2473" : index%5 ? "#17a2b8" : "#48c1b5"
+                }}>{person[0]}</div>
+              ))}
+            </div>
           </div>
+
           <div style={{ position: "relative" }}>
             <Button
               className="card-edit-btn"

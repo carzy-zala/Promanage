@@ -31,7 +31,13 @@ export const addTask = asyncHandler(async (req, res) => {
     );
   }
 
-  const newTask = await Task.create({ title, priority, dueDate, owner });
+  const newTask = await Task.create({
+    title,
+    priority,
+    dueDate,
+    owner,
+    assignTo,
+  });
 
   if (!newTask) {
     throw new ApiError(500, "ERROR :: Error occurred while creaating task !");
@@ -229,7 +235,7 @@ export const deleteTask = asyncHandler(async (req, res) => {
 //#region  edit task
 
 export const editTask = asyncHandler(async (req, res) => {
-  const { _id, title, priority, assignedTo, dueDate, todos } = req.body;
+  const { _id, title, priority, assignTo, dueDate, todos } = req.body;
 
   const existedTask = await Task.findById(_id);
 
@@ -240,7 +246,7 @@ export const editTask = asyncHandler(async (req, res) => {
   existedTask.title = title;
   existedTask.priority = priority;
   existedTask.dueDate = dueDate;
-  existedTask.assignedTo = assignedTo;
+  existedTask.assignTo = [...existedTask.assignTo, ...assignTo];
 
   existedTask.save();
 

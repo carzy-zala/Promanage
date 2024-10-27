@@ -1,8 +1,12 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import CardSection from "../../components/CardSection/CardSection.jsx";
 import "./Board.css";
 import { fetchTasks } from "../../Feature/taskSlice.js";
+import Button from "../../components/Button.jsx";
+import { createPortal } from "react-dom";
+import Input from "../../components/Input.jsx";
+import { toast } from "react-toastify";
 
 function getFormattedDate() {
   const date = new Date();
@@ -35,6 +39,14 @@ function Board() {
   const tasks = useSelector((store) => store.tasks);
   const user = useSelector((store) => store.user);
 
+  const [addPeopleClick, setAddPeopleClick] = useState(false);
+  const [addEmailClick, setAddEmailClick] = useState(false);
+  const [email, setEmail] = useState("");
+
+  const handleEmail = (event) => {
+    setEmail(event.target.value);
+  };
+
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -42,11 +54,15 @@ function Board() {
   }, []);
 
   const handleSelectChange = (event) => {
-    event.target.value === "week"
-      ? dispatch(fetchTasks())
-      : event.target.value === "day"
-      ? dispatch(fetchTasks(1))
-      : dispatch(fetchTasks(30));
+    if (event.target.value === "week") {
+      dispatch(fetchTasks());
+    } else {
+      if (event.target.value === "day") {
+        dispatch(fetchTasks(1));
+      } else {
+        dispatch(fetchTasks(30));
+      }
+    }
   };
 
   return (
@@ -57,7 +73,15 @@ function Board() {
           <div className="board-today-date">{getFormattedDate()}</div>
         </div>
         <div className="board-heading-and-dropdown">
-          <div className="board-heading">Board</div>
+          <div className="board-heading">
+            Board{" "}
+            <Button
+              className="add-people-btn"
+              onClick={() => setAddPeopleClick(true)}
+            >
+              <img src="/addPeople.png" />
+            </Button>
+          </div>
           <div className="board-select">
             <select
               defaultValue={
@@ -87,6 +111,72 @@ function Board() {
           <CardSection tasks={tasks.completedTasks} leftsidename="Done" />
         </div>
       </div>
+
+      {addPeopleClick &&
+        !addEmailClick &&
+        createPortal(
+          <div className="portal-div">
+            <div className="add-people-main-div">
+              <div className="add-people-heading">Add people to the board</div>
+
+              <Input
+                className="add-people-email"
+                type="email"
+                placeholder="Enter the email"
+                onChange={handleEmail}
+              />
+
+              <div className="add-people-lower-btns">
+                <div>
+                  <Button
+                    className="add-people-cancel-btn"
+                    children="Cancel"
+                    onClick={() => {
+                      setAddPeopleClick(false);
+                    }}
+                  />
+                </div>
+                <div>
+                  <Button
+                    className="add-people-confirm-btn"
+                    children="Add Email"
+                    onClick={() => {
+                      if (email) {
+                        setAddEmailClick(true);
+                      } else {
+                        toast.error("Please enter email !");
+                      }
+                    }}
+                  />
+                </div>
+              </div>
+            </div>
+          </div>,
+          document.body
+        )}
+
+      {addPeopleClick &&
+        addEmailClick &&
+        createPortal(
+          <div className="portal-div">
+            <div className="add-people-main-div-lower">
+              <div className="add-people-heading">{email} added to board</div>
+
+              <div>
+                <Button
+                  className="add-people-confirm-btn"
+                  children="Okay, got it!"
+                  onClick={() => {
+                    setAddPeopleClick(false);
+                    setAddEmailClick(false);
+                    setEmai("");
+                  }}
+                />
+              </div>
+            </div>
+          </div>,
+          document.body
+        )}
     </div>
   );
 }

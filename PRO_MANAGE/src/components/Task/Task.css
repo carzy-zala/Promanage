@@ -5,7 +5,7 @@
   height: 50rem;
   width: 65rem;
   display: grid;
-  grid-template-rows: 0.1fr 0.5fr 1fr 6fr 1fr;
+  grid-template-rows: 0.1fr 0.5fr 1fr 1fr 6fr 1fr;
   padding: 3rem;
   gap: 2rem;
   border-radius: 2rem;
@@ -15,6 +15,22 @@
   height: 1rem;
   width: 1rem;
   border-radius: 50%;
+}
+
+.assignto{
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+}
+
+.assignto-heading{
+  font-family: Inter;
+  font-size: 1.4rem;
+  font-weight: 500;
+  line-height: 2.5rem;
+  text-align: left;
+  display: flex;
+  align-items: center;
 }
 
 span {
@@ -66,11 +82,9 @@ span {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 15rem;
   height: 3.1rem;
   border-radius: 1rem;
   border: 0.1rem solid #e2e2e2;
-  padding: 0 3rem;
 }
 
 .priority-radio-btn {
@@ -89,17 +103,12 @@ span {
   align-items: center;
 }
 
-.selected-priority-high {
-  border: 0.2rem solid #ff2473;
+.selected-priority {
+  border: none;
+  background-color: #e5e5e5;
 }
 
-.selected-priority-mod {
-  border: 0.2rem solid #18b0ff;
-}
 
-.selected-priority-low {
-  border: 0.2rem solid #63c05b;
-}
 
 /* Checklist */
 
@@ -146,25 +155,13 @@ span {
   color: #707070;
 }
 
-#dueDate {
+.calender {
   position: absolute;
-  right: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  opacity: 0;
-  cursor: pointer;
-  box-sizing: border-box;
-}
-#dueDate::-webkit-calendar-picker-indicator {
-  position: absolute;
-  right: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  margin: 0;
-  padding: 0;
-  cursor: pointer;
+  bottom: 120%;
+  left: 50%;
+  padding: 1rem;
+  background: #fff;
+  box-shadow: 0px 12px 22px 0px #26242440;
 }
 
 .task-footer-right-btns {
@@ -229,4 +226,111 @@ span {
   border-radius: 1.2rem;
   align-items: center;
   background-color: #fff;
+}
+
+/* calender */
+
+.react-calendar {
+  width: 30rem;
+  height: 27rem;
+  padding: 0 0 1rem 0;
+  background-color: #fff;
+}
+
+.react-calendar__navigation__arrow {
+  display: none;
+}
+
+.react-calendar__navigation__prev-button {
+  display: inline;
+  position: absolute;
+  right: 20%;
+  border: none;
+  background-color: transparent;
+}
+
+.react-calendar__navigation__prev-button::before {
+  content: "↑";
+  position: absolute;
+  background-color: #fff;
+  top: -20%;
+  font-size: 2rem;  
+}
+
+.react-calendar__navigation__next-button {
+  display: inline;
+  position: absolute;
+  right: 10%;
+  border: none;
+  background-color: transparent;
+}
+
+.react-calendar__navigation__next-button::before {
+  content: "↓";
+  position: absolute;
+  top: -20%;
+  background-color: #fff;
+  font-size: 2rem;
+}
+
+.react-calendar__navigation__label {
+  border: none;
+  outline: none;
+  background-color: transparent;
+  font-size: 1.8rem;
+}
+
+.react-calendar__navigation__label::after {
+  content: " ▼";
+  font-size: 1.2rem;
+}
+
+.react-calendar__month-view__weekdays__weekday,
+.react-calendar__month-view__weekdays__weekday--current {
+  font-size: 1.4rem;
+  padding: 0.5rem;
+}
+abbr[title] {
+  text-decoration: none;
+}
+
+.react-calendar__tile,
+.react-calendar__month-view__days__day,
+.react-calendar__month-view__days__day--weekend {
+  border: none;
+  outline: none;
+  background-color: #fff;
+  padding: 1rem;
+  width: 6rem;
+  height: 4rem;
+}
+
+.react-calendar__tile--active {
+  background-color: #007bff;
+  color: #fff;
+  border: 0.2rem solid black;
+}
+
+.react-calendar__month-view__days__day--neighboringMonth {
+  color: light-dark(rgba(16, 16, 16, 0.3), rgba(255, 255, 255, 0.3));
+}
+
+/* Bottom buttons for "Clear" and "Today" */
+.react-calendar__tile--clear-today {
+  display: flex;
+  justify-content: space-between;
+  padding: 5px 10px;
+  font-size: 14px;
+}
+
+.react-calendar__tile--clear-today button {
+  background: none;
+  border: none;
+  color: #007bff;
+  cursor: pointer;
+  padding: 0;
+}
+
+.react-calendar__tile--clear-today button:hover {
+  text-decoration: underline;
 }
