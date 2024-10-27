@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import setToken from "../utils/setToken";
 
 const initialState = {
   isAuthenticated: false,
@@ -13,6 +14,7 @@ const userReducer = createSlice({
     initialized: (state) => {
       if (localStorage.getItem("accessToken")) {
         state.isAuthenticated = true;
+        setToken(localStorage.getItem("accessToken"));
       }
     },
     registerUserAction: (state, action) => {
