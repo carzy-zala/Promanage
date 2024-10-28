@@ -83,7 +83,7 @@ function Task({
       } else {
         response = await axiosPost(
           `${import.meta.env.VITE_BACKEND_API_URL}${apiRoutes.TASK_CREATE}`,
-          { title, priority, todos, dueDate: formatDate(dueDate), assignTo }
+          { title, priority, todos, dueDate, assignTo }
         );
       }
 

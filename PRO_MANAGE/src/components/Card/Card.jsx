@@ -171,7 +171,7 @@ function Card({ task, collapseAll }) {
               : "LOW PRIORITY"}
             <div className="assigned-circles">
               {task.assignTo.map((person,index) => (
-                <div className="assigned-circle" style={{
+                <div key={index} className="assigned-circle" style={{
                   backgroundColor : index%2 ? "#ff2473" : index%5 ? "#17a2b8" : "#48c1b5"
                 }}>{person[0]}</div>
               ))}
