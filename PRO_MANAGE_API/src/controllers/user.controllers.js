@@ -74,7 +74,7 @@ export const loginUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
 
   if ([email, password].some((field) => field.trim() === "")) {
-    throw new ApiError(400, "ERORR :: Please enter credentials properly !!");
+    throw new ApiError(400, "ERROR :: Please enter credentials properly !!");
   }
 
   const user = await User.findOne({ email });
